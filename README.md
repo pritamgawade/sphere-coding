@@ -8,7 +8,7 @@
 * Please complete this within 48 hours (in before 2022-01-27 @ 08:30 Pacific Time)
 ## Requirements
 ### PostGreSQL
-You will need a local PostGreSQL database, which can be created with the following commands
+You will need a local PostGreSQL database, which can be created with the following commands. I will leave installing the PostGreSQL database to you and your own specific device.
 
 `$ psql`
 
