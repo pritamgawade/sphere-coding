@@ -1,15 +1,18 @@
-const mockData = {
-  id: 6,
-  first_name: "Paul",
-  last_name: "Atreides",
-  email: "muadib@dune.com",
-  country: "US"
+async function getUsers(context) {
+  const { knex } = context;
+
+  return await knex('testusers');
 }
 
-async function getUser(value) {
+async function getUser(args, context) {
+  const { id, email } = args;
+  const { knex } = context;
+  
+  const payload = /@/.test(email) ? { email } : { id: +id };
 
-  console.log(value);
-  return mockData;
+  const userRecord = await knex('testusers').where(payload);
+
+  return userRecord[0];
 }
 
-module.exports = { getUser };
+module.exports = { getUser, getUsers };
