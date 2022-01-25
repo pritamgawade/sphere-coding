@@ -3,8 +3,8 @@ const dbConfig = {
     client: 'postgresql',
     connection: {
       database: 'test',
-      user:     'don',
-      password: ''
+      user:     'testuser',
+      password: 'testpassword'
     },
     pool: {
       min: 2,
