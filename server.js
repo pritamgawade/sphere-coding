@@ -32,18 +32,12 @@ async function startApolloServer(typeDefs, resolvers) {
       fastifyAppClosePlugin(fastify),
       ApolloServerPluginDrainHttpServer({ httpServer: fastify.server }),
     ],
-    // context: ({ req, res }) => {
-    //   //Invaluable for debugging
-    //   if (env === 'development') {
-    //     console.log("GOT A REQUEST: ", req);
-    //   }
-
-    //   return {
-    //     source: req.headers.referer || 'unknown',
-    //     header: req.headers,
-    //     query: req.body.query,
-    //   };
-    // },
+    context: ({ req, res }) => {
+      //Invaluable for debugging
+      if (env === 'development') {
+        console.log("GOT A REQUEST: ", req);
+      }
+    },
   });
 
   await apolloServer.start();
