@@ -7,8 +7,7 @@ const mockData = {
 }
 
 async function getUser(value) {
-
-  console.log(value);
+  console.log("Knex?: ", value.knex);
   return mockData;
 }
 

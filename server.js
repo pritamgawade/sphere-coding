@@ -10,6 +10,10 @@ const fastify = require('fastify')({logger: true});
 const helmet = require('fastify-helmet');
 
 const env = config.get('env');
+
+const knexConfig = require('./knexFile');
+const knex = require('knex')(knexConfig[env]);
+
 const serviceListeningPort = config.get('port');
 
 function fastifyAppClosePlugin(app) {
@@ -32,25 +36,23 @@ async function startApolloServer(typeDefs, resolvers) {
       fastifyAppClosePlugin(fastify),
       ApolloServerPluginDrainHttpServer({ httpServer: fastify.server }),
     ],
-    context: ({ req, res }) => {
+    context: ({ request, reply }) => {
       //Invaluable for debugging
       if (env === 'development') {
-        console.log("GOT A REQUEST: ", req);
+        console.log("GOT A REQUEST: ", request.body);
       }
+      return { knex, reply };
     },
   });
 
   await apolloServer.start();
-  fastify.register(apolloServer.createHandler())
+  fastify
     .register(helmet)
     .register(require('fastify-sensible'))
     .register(require('fastify-healthcheck'))
     .register(require('fastify-formbody'))
-    .register(require('fastify-knex'), {
-      client: 'pg',
-      debug: (config.get('env') === 'development'),
-      connection: config.get('db')
-    })
+    .register(apolloServer.createHandler());
+
   await fastify.listen(serviceListeningPort);
   console.log(`🚀 Server ready at http://localhost:${serviceListeningPort}${apolloServer.graphqlPath}`);
 }
