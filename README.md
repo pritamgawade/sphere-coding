@@ -7,9 +7,7 @@ You will need a local PostGreSQL database, which can be created with the followi
 
 `CREATE DATABASE test;`
 
-logout <Ctrl + D>
-
-`$ psql -d test`
+`\c test`
 
 `CREATE USER testuser WITH PASSWORD 'testpassword';`
 
