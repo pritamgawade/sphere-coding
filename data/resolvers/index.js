@@ -1,4 +1,4 @@
-const { getUser, getUsers } = require('./handleUser');
+const { getUser, getUsers, updateUser } = require('./handleUser');
 
 
 const resolvers = {
@@ -8,8 +8,14 @@ const resolvers = {
     },
     users(parent, args, context, info) {
       return getUsers(context); 
-    }
+    },
   },
+
+  Mutation: {
+    updateUser(parent, args, context, info) {
+      return updateUser(args, context); 
+    }
+  }
 };
 
 module.exports = [ resolvers ];
